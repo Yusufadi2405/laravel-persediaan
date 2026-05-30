@@ -261,19 +261,18 @@ public function listbarang(Request $request)
 
         return response()->json(['success' => 'Berhasil']);
     }
-   public function proses_hapus(Request $request)
-    {
-        // KODE BARU: Ambil id langsung dari form request modal hapus
-        $barang = BarangModel::findOrFail($request->idbarang);
+ public function proses_hapus(Request $request, $id)
+{
+    $barang = BarangModel::findOrFail($id); // ← ambil dari URL parameter
 
-        if ($barang->barang_gambar && $barang->barang_gambar != 'image.png') {
-            $path = public_path('assets/default/barang/' . $barang->barang_gambar);
-            if (file_exists($path)) {
-                unlink($path);
-            }
+    if ($barang->barang_gambar && $barang->barang_gambar != 'image.png') {
+        $path = public_path('assets/default/barang/' . $barang->barang_gambar);
+        if (file_exists($path)) {
+            unlink($path);
         }
-        
-        $barang->delete();
-        return response()->json(['success' => 'Berhasil']);
     }
+    
+    $barang->delete();
+    return response()->json(['success' => 'Berhasil']);
+}
 }

@@ -47,26 +47,30 @@
     }
 
     function pilihBarang(data) {
-        const key = $("#randkey").val();
-        $("#status").val("true");
-        $("input[name='kdbarang']").val(data.barang_kode);
-        $("#nmbarang").val(data.barang_nama.replace(/_/g, ' '));
-        $("#satuan").val(data.satuan_nama.replace(/_/g, ' '));
-        $("#jenis").val(data.jenisbarang_nama.replace(/_/g, ' '));
-        $('#modaldemo8').removeClass('d-none');
-        $('#modalBarang').modal('hide');
-    }
+    $("#status").val("true");
+    $("input[name='kdbarang']").val(data.barang_kode);
+    $("#nmbarang").val(data.barang_nama.replace(/_/g, ' '));
+    $("#satuan").val(data.satuan_nama.replace(/_/g, ' '));
+    $("#jenis").val(data.jenisbarang_nama.replace(/_/g, ' '));
+    
+    $('#modalBarang').modal('hide');
+    setTimeout(function() {
+        $('#modaldemo8').modal('show');
+    }, 400);
+}
 
-    function pilihBarangU(data) {
-        const key = $("#randkey").val();
-        $("#statusU").val("true");
-        $("input[name='kdbarangU']").val(data.barang_kode);
-        $("#nmbarangU").val(data.barang_nama.replace(/_/g, ' '));
-        $("#satuanU").val(data.satuan_nama.replace(/_/g, ' '));
-        $("#jenisU").val(data.jenisbarang_nama.replace(/_/g, ' '));
-        $('#Umodaldemo8').removeClass('d-none');
-        $('#modalBarang').modal('hide');
-    }
+function pilihBarangU(data) {
+    $("#statusU").val("true");
+    $("input[name='kdbarangU']").val(data.barang_kode);
+    $("#nmbarangU").val(data.barang_nama.replace(/_/g, ' '));
+    $("#satuanU").val(data.satuan_nama.replace(/_/g, ' '));
+    $("#jenisU").val(data.jenisbarang_nama.replace(/_/g, ' '));
+    
+    $('#modalBarang').modal('hide');
+    setTimeout(function() {
+        $('#Umodaldemo8').modal('show');
+    }, 400);
+}
 
     var table2;
     $(document).ready(function() {

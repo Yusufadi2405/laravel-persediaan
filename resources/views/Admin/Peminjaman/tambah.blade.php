@@ -98,19 +98,18 @@
         }
     });
 
-    function modalBarang() {
-        let ruangan = $("#ruangan").val();
-        if (!ruangan) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Perhatian!',
-                text: 'Pilih ruangan terlebih dahulu!'
-            });
-            return;
-        }
-        table2.ajax.reload();
-        $('#modalBarang').modal('show');
+function modalBarang() {
+    let ruangan = $("#ruangan").val();
+    if (!ruangan) {
+        Swal.fire({ icon: 'warning', title: 'Perhatian!', text: 'Pilih ruangan terlebih dahulu!' });
+        return;
     }
+    table2.ajax.reload();
+    $('#modaldemo8').modal('hide');
+    setTimeout(function() {
+        $('#modalBarang').modal('show');
+    }, 400);
+}
 
     function searchBarang() {
         getbarangbyid($('input[name="kdbarang"]').val());
