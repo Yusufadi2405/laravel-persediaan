@@ -54,18 +54,6 @@
                         </div>
                     </div>
                     <div class="col-md-5">
-                        <div class="form-group">
-                            <label for="title" class="form-label">Foto</label>
-                            <center>
-                                <img src="{{url('/assets/default/barang/image.png')}}" width="80%" alt="profile-user" id="outputImgU" class="">
-                            </center>
-                            <input class="form-control mt-5" 
-       id="GetFileU" 
-       name="photoU" 
-       type="file" 
-       onchange="VerifyFileNameAndFileSizeU()" 
-       accept=".png,.jpeg,.jpg,.svg"
-       capture="environment">
                         </div>
                     </div>
                 </div>

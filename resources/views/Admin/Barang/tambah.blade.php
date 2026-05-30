@@ -49,18 +49,22 @@
                         </div>
                     </div>
                     <div class="col-md-5">
-                        <div class="form-group">
-                            <label for="title" class="form-label">Foto</label>
-                            <center>
-                                <img src="{{url('/assets/default/barang/image.png')}}" width="80%" alt="profile-user" id="outputImg" class="">
-                            </center>
-                            <input class="form-control mt-5" 
-       id="GetFile" 
-       name="photo" 
-       type="file" 
-       onchange="VerifyFileNameAndFileSize()" 
-       accept=".png,.jpeg,.jpg,.svg" 
-       capture="environment"> ```
+    <div class="form-group">
+        <label for="title" class="form-label">Foto</label>
+        <center>
+            <img src="{{url('/assets/default/barang/image.png')}}" width="80%" alt="profile-user" id="outputImg" class="">
+        </center>
+        <div class="d-flex gap-2 mt-3">
+            <button type="button" class="btn btn-outline-primary w-50" onclick="document.getElementById('GetFile').removeAttribute('capture'); document.getElementById('GetFile').click();">
+                <i class="fe fe-upload"></i> Upload
+            </button>
+            <button type="button" class="btn btn-outline-success w-50" onclick="document.getElementById('GetFile').setAttribute('capture','environment'); document.getElementById('GetFile').click();">
+                <i class="fe fe-camera"></i> Kamera
+            </button>
+        </div>
+        <input class="d-none" id="GetFile" name="photo" type="file" onchange="VerifyFileNameAndFileSize()" accept=".png,.jpeg,.jpg,.svg">
+    </div>
+</div>
 
 
                         </div>

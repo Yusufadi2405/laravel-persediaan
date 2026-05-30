@@ -80,13 +80,13 @@
         $("input[name='idbarang']").val(data.barang_id);
         $("#vbarang").html("barang " + "<b>" + data.barang_nama.replace(/_/g, ' ') + "</b>");
     }
-    function gambar(data) {
-        if(data.barang_gambar != 'image.png'){
-            $("#outputImgG").attr("src", "{{asset('storage/barang/')}}"+"/"+data.barang_gambar);
-        }else{
-            $("#outputImgG").attr("src", "{{url('/assets/default/barang/image.png')}}");
-        }
+  function gambar(data) {
+    if(data.barang_gambar != 'image.png'){
+        $("#outputImgG").attr("src", "{{ url('/assets/default/barang') }}/"+data.barang_gambar);
+    }else{
+        $("#outputImgG").attr("src", "{{url('/assets/default/barang/image.png')}}");
     }
+}
     function validasi(judul, status) {
         swal({
             title: judul,

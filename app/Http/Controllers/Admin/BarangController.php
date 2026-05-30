@@ -46,12 +46,19 @@ class BarangController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('img', function ($row) {
-                    $url = ($row->barang_gambar == "image.png" || $row->barang_gambar == "") 
-                        ? url('/assets/default/barang/image.png') 
-                        : url('/assets/default/barang/' . $row->barang_gambar);
+    $url = ($row->barang_gambar == "image.png" || $row->barang_gambar == "") 
+        ? url('/assets/default/barang/image.png') 
+        : url('/assets/default/barang/' . $row->barang_gambar);
 
-                    return '<img src="' . $url . '" class="rounded shadow-sm" style="width: 50px; height: 50px; object-fit: cover;">';
-                })
+    $array = json_encode(['barang_gambar' => $row->barang_gambar ?? 'image.png']);
+
+    return '<img src="' . $url . '" 
+                class="rounded shadow-sm" 
+                style="width: 50px; height: 50px; object-fit: cover; cursor: pointer;" 
+                data-bs-toggle="modal" 
+                data-bs-target="#Gmodaldemo8"
+                onclick=\'gambar(' . $array . ')\'>';
+})
                 ->addColumn('jenisbarang', function ($row) {
                     return $row->jenisbarang_id == '' ? '-' : $row->jenisbarang_nama;
                 })
@@ -91,13 +98,13 @@ class BarangController extends Controller
                     $hakEdit = AksesModel::leftJoin('tbl_submenu', 'tbl_submenu.submenu_id', '=', 'tbl_akses.submenu_id')->where(array('tbl_akses.role_id' => Session::get('user')->role_id, 'tbl_submenu.submenu_judul' => 'Barang', 'tbl_akses.akses_type' => 'update'))->count();
                     $hakDelete = AksesModel::leftJoin('tbl_submenu', 'tbl_submenu.submenu_id', '=', 'tbl_akses.submenu_id')->where(array('tbl_akses.role_id' => Session::get('user')->role_id, 'tbl_submenu.submenu_judul' => 'Barang', 'tbl_akses.akses_type' => 'delete'))->count();
                     
-                    if ($hakEdit > 0 && $hakDelete > 0) {
-                        $button .= '
-                        <div class="g-2">
-                        <a class="btn modal-effect text-primary btn-sm" data-bs-effect="effect-super-scaled" data-bs-toggle="modal" href="#Umodaldemo8" data-bs-toggle="tooltip" data-bs-original-title="Edit" onclick=update(' . json_encode($array) . ')><span class="fe fe-edit text-success fs-14"></span></a>
-                        <a class="btn modal-effect text-danger btn-sm" data-bs-effect="effect-super-scaled" data-bs-toggle="modal" href="#Hmodaldemo8" onclick=hapus(' . json_encode($array) . ')><span class="fe fe-trash-2 fs-14"></span></a>
-                        </div>';
-                    }
+                  if ($hakEdit > 0 && $hakDelete > 0) {
+    $button .= '
+    <div class="g-2">
+    <a class="btn modal-effect text-primary btn-sm" data-bs-effect="effect-super-scaled" data-bs-toggle="modal" href="#Umodaldemo8" data-bs-toggle="tooltip" data-bs-original-title="Edit" onclick=update(' . json_encode($array) . ')><span class="fe fe-edit text-success fs-14"></span></a>
+    <a class="btn modal-effect text-danger btn-sm" data-bs-effect="effect-super-scaled" data-bs-toggle="modal" href="#Hmodaldemo8" onclick=hapus(' . json_encode($array) . ')><span class="fe fe-trash-2 fs-14"></span></a>
+    </div>';
+}
                     // ... (logika hak akses button ke bawahnya tetap sama seperti kodemu)
                     return $button;
                 })
