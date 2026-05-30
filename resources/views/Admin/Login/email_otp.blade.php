@@ -3,7 +3,7 @@
         
         <div style="background: linear-gradient(135deg, #00466a 0%, #006b9d 100%); padding: 30px; text-align: center;">
             <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 600; letter-spacing: 1px;">
-                InventoryWeb
+                InventoryWeb Bannjarsari
             </h1>
         </div>
 
