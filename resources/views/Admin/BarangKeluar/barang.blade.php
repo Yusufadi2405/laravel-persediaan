@@ -90,11 +90,13 @@
 
             "lengthChange": true,
 
-            "ajax": {
+           "ajax": {
     "url": "{{url('admin/barang/listbarang')}}/param",
     "data": function(d) {
         d.param = $('input[name="param"]').val();
-        d.ruangan = $("select[name='tujuan']").val();
+        d.ruangan = $('input[name="param"]').val() == 'ubah' 
+            ? $("select[name='tujuanU']").val()  // ← dari form edit
+            : $("select[name='tujuan']").val();   // ← dari form tambah
     }
 },
 

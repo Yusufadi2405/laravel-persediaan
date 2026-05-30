@@ -114,7 +114,7 @@ public function listbarang(Request $request)
         // ===============================
         // FILTER JIKA ADA RUANGAN DIPILIH
         // ===============================
-        if ($request->get('param') == 'tambah' && $ruangan) {
+       if ($ruangan) {
 
   $data = \DB::table('tbl_barang_ruangan')
     ->join('tbl_barang', 'tbl_barang.barang_kode', '=', 'tbl_barang_ruangan.barang_kode')
