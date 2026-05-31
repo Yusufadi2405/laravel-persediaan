@@ -3,7 +3,7 @@
         
         <div style="background: linear-gradient(135deg, #00466a 0%, #006b9d 100%); padding: 30px; text-align: center;">
             <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 600; letter-spacing: 1px;">
-                InventoryWeb Bannjarsari
+                InventoryWeb Banjarsari
             </h1>
         </div>
 
@@ -20,7 +20,7 @@
             </div>
 
             <p style="font-size: 14px; color: #888888; font-style: italic;">
-                *Kode ini hanya berlaku selama 60 menit. Jangan berikan kode ini kepada siapapun, termasuk tim InventoryWeb.
+                *Kode ini hanya berlaku selama 5 menit. Jangan berikan kode ini kepada siapapun, termasuk tim InventoryWeb.
             </p>
             
             <p style="font-size: 16px; margin-bottom: 0;">Terima kasih,<br><strong>Tim InventoryWeb</strong></p>
