@@ -35,7 +35,7 @@ use Illuminate\Support\Facades\Route;
 
 // login admin
 Route::middleware(['preventBackHistory'])->group(function () {
-    Route::get('/admin/login', [LoginController::class, 'index'])->middleware('useractive');
+    Route::get('/admin/login', [LoginController::class, 'index'])->middleware('useractive') ->name('login');
     Route::post('/admin/proseslogin', [LoginController::class, 'proseslogin'])->middleware('useractive');
     Route::get('/admin/logout', [LoginController::class, 'logout']);
 });

@@ -224,6 +224,9 @@ public function listbarang(Request $request)
     {
         $img = "image.png";
         if ($request->hasFile('foto')) {
+            $request->validate([          // ← TAMBAH SINI
+            'foto' => 'image|mimes:jpeg,png,jpg,svg|max:3072'
+        ]);
             $image = $request->file('foto');
             $img = $image->hashName();
             $image->move(public_path('assets/default/barang'), $img);
@@ -243,6 +246,9 @@ public function listbarang(Request $request)
         $barang = BarangModel::findOrFail($request->idbarangU);
 
         if ($request->hasFile('fotoU')) {
+            $request->validate([          // ← TAMBAH SINI
+            'fotoU' => 'image|mimes:jpeg,png,jpg,svg|max:3072'
+        ]);
             $image = $request->file('fotoU');
             $nama_file = $image->hashName();
             $destinationPath = public_path('assets/default/barang');

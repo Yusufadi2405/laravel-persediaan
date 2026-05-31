@@ -25,43 +25,39 @@
 <script>
     function submitFormH() {
         setLoadingH(true);
-        // Mengambil ID dari input hidden idbarang
         const id = $("input[name='idbarang']").val();
         
         $.ajax({
             type: 'POST',
             url: "{{ url('admin/barang/proses_hapus') }}/" + id,
             dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             success: function(data) {
-                // 1. Tutup modal secara aman
                 $('#Hmodaldemo8').modal('hide');
-                
-                // 2. Reload DataTable tanpa menghilangkan posisi halaman (null, false)
-                if (typeof table !== 'undefined') {
-                    table.ajax.reload(null, false);
-                } else {
-                    $('#table-1').DataTable().ajax.reload(null, false);
-                }
-                
-                // 3. Panggil fungsi validasi bawaan dari index.blade.php kamu
-                if (typeof validasi === 'function') {
-                    validasi("Berhasil dihapus!", "success");
-                } else {
-                    alert("Data berhasil dihapus!");
-                }
-                
+                table.ajax.reload(null, false);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil dihapus!',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
                 resetH();
             },
-            error: function(xhr, status, error) {
+            error: function(xhr) {
                 setLoadingH(false);
-                alert("Gagal menghapus data atau data tidak ditemukan.");
-                console.error(xhr.responseText);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal menghapus data!'
+                });
             }
         });
     }
 
     function resetH() {
         $("input[name='idbarang']").val('');
+        $('#vbarang').text('');
         setLoadingH(false);
     }
 
