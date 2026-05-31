@@ -88,13 +88,15 @@
         }
     });
 
-    function modalBarangU() {
+function modalBarangU() {
+    $('input[name="param"]').val('ubah');
+    resetValidU();
+    table2.ajax.reload();
+    $('#Umodaldemo8').modal('hide');
+    setTimeout(function() {
         $('#modalBarang').modal('show');
-        $('#Umodaldemo8').addClass('d-none');
-        $('input[name="param"]').val('ubah');
-        resetValidU();
-        table2.ajax.reload();
-    }
+    }, 400);
+}
 
     function searchBarangU() {
         getbarangbyidU($('input[name="kdbarangU"]').val());

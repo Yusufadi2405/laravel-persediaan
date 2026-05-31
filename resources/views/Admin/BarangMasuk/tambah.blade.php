@@ -88,13 +88,15 @@
         }
     });
 
-    function modalBarang() {
+function modalBarang() {
+    $('input[name="param"]').val('tambah');
+    resetValid();
+    table2.ajax.reload();
+    $('#modaldemo8').modal('hide');
+    setTimeout(function() {
         $('#modalBarang').modal('show');
-        $('#modaldemo8').addClass('d-none');
-        $('input[name="param"]').val('tambah');
-        resetValid();
-        table2.ajax.reload();
-    }
+    }, 400);
+}
 
     function searchBarang() {
         getbarangbyid($('input[name="kdbarang"]').val());
