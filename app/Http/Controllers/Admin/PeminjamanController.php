@@ -209,37 +209,34 @@ public function getDetail($id)
   // ===============================================================
     // HAPUS (Sudah Aman: Hanya mengembalikan SISA barang yang di luar)
     // ===============================================================
-    public function delete(Request $request)
-    {
-        try {
-            DB::transaction(function () use ($request) {
-                // Ambil data peminjaman beserta semua detail barangnya
-                $p = PeminjamanModel::with('details')->findOrFail($request->idpeminjaman);
+public function delete(Request $request)
+{
+    try {
+        DB::transaction(function () use ($request) {
+            $p = PeminjamanModel::with('details')->findOrFail($request->idpeminjaman);
 
-                // Jika statusnya belum lunas (belum 'dikembalikan'), hitung sisa yang masih di luar
-                if ($p->pinjam_status !== 'dikembalikan') {
-                    foreach ($p->details as $d) {
-                        $sudah_kembali = $d->jumlah_kembali ?? 0;
-                        $sisa_di_luar = $d->jumlah - $sudah_kembali;
+            if ($p->pinjam_status !== 'dikembalikan') {
+                foreach ($p->details as $d) {
+                    $sudah_kembali = $d->jumlah_kembali ?? 0;
+                    $sisa_di_luar = $d->jumlah - $sudah_kembali;
 
-                        // Hanya kembalikan sisa barang yang benar-benar belum pulang ke ruangan
-                        if ($sisa_di_luar > 0) {
-                            BarangRuanganModel::where('barang_kode', $d->barang_kode)
-                                ->where('customer_id', $p->customer_id)
-                                ->increment('stok', $sisa_di_luar);
-                        }
+                    if ($sisa_di_luar > 0) {
+                        BarangRuanganModel::where('barang_kode', $d->barang_kode)
+                            ->where('customer_id', $p->customer_id)
+                            ->increment('stok', $sisa_di_luar);
                     }
                 }
+            }
 
-                // Setelah stok ruangan aman disesuaikan, baru hapus datanya
-                $p->delete();
-            });
+            $p->delete();
+        });
 
-            return redirect()->back()->with('success', 'Data peminjaman berhasil dihapus dan sisa stok dikembalikan');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Gagal menghapus data: ' . $e->getMessage());
-        }
+        return response()->json(['status' => 'success', 'message' => 'Data peminjaman berhasil dihapus!']);
+
+    } catch (\Exception $e) {
+        return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
     }
+}
 
     // ===============================================================
     // KEMBALIKAN / CICIL (Sudah Aman: Proteksi input minus & form kosong)

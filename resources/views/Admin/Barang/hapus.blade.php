@@ -1,3 +1,4 @@
+<!-- MODAL HAPUS -->
 <div class="modal fade" data-bs-backdrop="static" id="Hmodaldemo8">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content modal-content-demo">
@@ -8,9 +9,9 @@
                 <br>
                 <i class="icon icon-exclamation fs-70 text-warning lh-1 my-5 d-inline-block"></i>
                 <h3 class="mb-5">Yakin hapus <span id="vbarang"></span> ?</h3>
-                
+
                 <input type="hidden" name="idbarang" id="idbarang">
-                
+
                 <button class="btn btn-danger-light pd-x-25 d-none" id="btnLoaderH" type="button" disabled="">
                     <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
                     Loading...
@@ -26,7 +27,7 @@
     function submitFormH() {
         setLoadingH(true);
         const id = $("input[name='idbarang']").val();
-        
+
         $.ajax({
             type: 'POST',
             url: "{{ url('admin/barang/proses_hapus') }}/" + id,
@@ -35,21 +36,32 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function(data) {
-                $('#Hmodaldemo8').modal('hide');
-                table.ajax.reload(null, false);
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Berhasil dihapus!',
-                    timer: 2000,
-                    showConfirmButton: false
-                });
-                resetH();
+                setLoadingH(false);
+                if (data.status == 'success') {
+                    $('#Hmodaldemo8').modal('hide');
+                    table.ajax.reload(null, false);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil dihapus!',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    resetH();
+                } else {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Tidak bisa dihapus!',
+                        text: data.message
+                    });
+                }
             },
             error: function(xhr) {
                 setLoadingH(false);
+                const res = xhr.responseJSON;
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Gagal menghapus data!'
+                    icon: 'warning',
+                    title: 'Tidak bisa dihapus!',
+                    text: res ? res.message : 'Terjadi kesalahan.'
                 });
             }
         });

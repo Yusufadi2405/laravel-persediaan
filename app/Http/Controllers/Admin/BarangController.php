@@ -274,9 +274,28 @@ public function listbarang(Request $request)
 
         return response()->json(['success' => 'Berhasil']);
     }
- public function proses_hapus(Request $request, $id)
+public function proses_hapus(Request $request, $id)
 {
-    $barang = BarangModel::findOrFail($id); // ← ambil dari URL parameter
+    $barang = BarangModel::findOrFail($id);
+    $kode = $barang->barang_kode;
+
+    // Cek barang masuk
+    $cekMasuk = DB::table('tbl_barangmasuk')->where('barang_kode', $kode)->exists();
+    if ($cekMasuk) {
+        return response()->json(['status' => 'error', 'message' => 'Barang tidak bisa dihapus karena ada di transaksi!'], 422);
+    }
+
+    // Cek barang keluar
+    $cekKeluar = DB::table('tbl_barangkeluar')->where('barang_kode', $kode)->exists();
+    if ($cekKeluar) {
+        return response()->json(['status' => 'error', 'message' => 'Barang tidak bisa dihapus karena ada di transaksi  !'], 422);
+    }
+
+    // Cek peminjaman
+    $cekPinjam = DB::table('tbl_peminjaman_detail')->where('barang_kode', $kode)->exists();
+    if ($cekPinjam) {
+        return response()->json(['status' => 'error', 'message' => 'Barang tidak bisa dihapus karena ada di transaksi !'], 422);
+    }
 
     if ($barang->barang_gambar && $barang->barang_gambar != 'image.png') {
         $path = public_path('assets/default/barang/' . $barang->barang_gambar);
@@ -284,8 +303,8 @@ public function listbarang(Request $request)
             unlink($path);
         }
     }
-    
+
     $barang->delete();
-    return response()->json(['success' => 'Berhasil']);
+    return response()->json(['status' => 'success', 'message' => 'Berhasil dihapus!']);
 }
 }
